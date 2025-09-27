@@ -1,0 +1,110 @@
+/* Fundo azul principal */
+.profile-container {
+  background-color: #00AEEF;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: 'Poppins', sans-serif;
+  padding: 30px 20px;
+}
+
+/* Logo (imagem) */
+.logo-img {
+  width: 180px;
+  margin-bottom: 40px;
+}
+
+/* Card branco */
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 25px 20px;
+  text-align: center;
+  width: 85%;
+  max-width: 340px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.subtitle {
+  color: #444;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+/* Área dos dados */
+.stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.bottle {
+  width: 55px;
+  height: auto;
+}
+
+.count {
+  font-size: 60px;
+  font-weight: 700;
+  color: #0A0A40;
+}
+
+.unit {
+  font-size: 16px;
+  color: #0A0A40;
+  align-self: flex-end;
+  margin-bottom: 8px;
+}
+
+/* Botão principal */
+.refill-btn {
+  background-color: #0A0A40;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  border-radius: 14px;
+  padding: 15px 50px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.refill-btn:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+/* Footer fixo embaixo */
+.footer {
+  background-color: #0A0A40;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding: 15px 0;
+  margin-top: auto;
+}
+
+.footer-icon {
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.footer-icon:hover {
+  opacity: 0.8;
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background: white;
+}

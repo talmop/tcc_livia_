@@ -1,0 +1,115 @@
+:root {
+  --bg: #03a9e0;   /* azul claro */
+  --dark: #06143a; /* azul escuro */
+  --white: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: "Poppins", Arial, sans-serif;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login {
+  width: 100%;
+  max-width: 400px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+/* Logo */
+.login__logo {
+  width: 220px;
+  max-width: 80%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+/* Formulário */
+.login__form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.login__input {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+  background: var(--white);
+  color: #444;
+}
+
+.login__input::placeholder {
+  color: #888;
+}
+
+/* Botão */
+.login__btn {
+  width: 100%;
+  padding: 16px;
+  background: var(--dark);
+  color: var(--white);
+  font-size: 18px;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.login__btn:hover {
+  opacity: 0.9;
+}
+
+/* Esqueci senha */
+.login__forgot {
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--dark);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Rodapé */
+.login__footer {
+  width: 100%;
+  background: var(--dark);
+  border-radius: 20px 20px 0 0;
+  padding: 20px;
+  text-align: center;
+  margin-top: auto;
+}
+
+.login__footer p {
+  font-size: 14px;
+  color: var(--white);
+}
+
+.login__footer a {
+  color: var(--white);
+  font-weight: 600;
+  text-decoration: underline;
+}

@@ -1,0 +1,35 @@
+.footer-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #010640; /* Azul escuro do layout */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 15px 0;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  z-index: 2000;
+}
+
+.footer-icon {
+  width: 60px;
+  height: 60px;
+  background: white; /* círculo branco */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-icon img {
+  width: 28px;
+  height: 28px;
+}
+
+.divider {
+  width: 2px;
+  height: 40px;
+  background: white;
+}
