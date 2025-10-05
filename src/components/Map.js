@@ -18,7 +18,7 @@ import iconProfile from "../icons/icon_perfil.png";
 import iconMap from "../icons/icon_mapa.png";
 import locationIcon from "../icons/icon_localizacao.png";
 
-// Ícones
+// 🧭 Ícones personalizados
 const userIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/64/64113.png",
   iconSize: [32, 32],
@@ -32,11 +32,11 @@ const pointIcon = new L.Icon({
   popupAnchor: [0, -32],
 });
 
-// Botão "Minha Localização"
+// 📍 Botão "Minha Localização"
 function FlyToUser({ position }) {
   const map = useMap();
   const handleClick = () => {
-    if (position) map.setView(position, 13);
+    if (position) map.setView(position, 15);
   };
 
   return (
@@ -65,7 +65,18 @@ function FlyToUser({ position }) {
   );
 }
 
-// Captura duplo clique e adiciona ponto
+// 🗺️ Recentraliza o mapa automaticamente ao obter a localização
+function RecenterMap({ position }) {
+  const map = useMap();
+  useEffect(() => {
+    if (position) {
+      map.setView([position.lat, position.lng], 15);
+    }
+  }, [position, map]);
+  return null;
+}
+
+// ➕ Captura duplo clique e adiciona ponto
 function AddPoint({ onAddPoint }) {
   useMapEvents({
     dblclick(e) {
@@ -89,8 +100,9 @@ function Map() {
   const [userPosition, setUserPosition] = useState(null);
   const [routeCoords, setRouteCoords] = useState([]);
 
-  // Variável de ambiente
+  // 🔑 Chave da API ORS (verifique se está no .env)
   const ORS_API_KEY = process.env.REACT_APP_ORS_API_KEY;
+  console.log("🔑 Chave ORS_API_KEY:", ORS_API_KEY);
 
   // Carregar pontos do localStorage
   useEffect(() => {
@@ -102,15 +114,20 @@ function Map() {
     localStorage.setItem("points", JSON.stringify(newPoints));
   };
 
-  // Obter localização do usuário
+  // 📍 Obter localização do usuário com alta precisão
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
-      (pos) =>
-        setUserPosition({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-      (err) => console.error("Erro ao obter localização:", err)
+      (pos) => {
+        const position = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        console.log("📍 Localização do usuário (alta precisão):", position);
+        setUserPosition(position);
+      },
+      (err) => console.error("Erro ao obter localização:", err),
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
     );
   }, []);
 
+  // ⭐ Adicionar avaliação
   const handleAddReview = (pointId, review) => {
     const updatedPoints = points.map((p) =>
       p.id === pointId ? { ...p, reviews: [...(p.reviews || []), review] } : p
@@ -119,28 +136,39 @@ function Map() {
     savePoints(updatedPoints);
   };
 
+  // ➕ Adicionar novo ponto
   const handleAddPoint = (newPoint) => {
     const updatedPoints = [...points, newPoint];
     setPoints(updatedPoints);
     savePoints(updatedPoints);
   };
 
-  // Traçar rota real usando OpenRouteService
+  // 🚗 Traçar rota usando OpenRouteService
   const handleRoute = async (destination) => {
-    if (!userPosition) return;
+    if (!userPosition) {
+      console.warn("⚠️ Localização do usuário não disponível!");
+      return;
+    }
 
     const start = [userPosition.lng, userPosition.lat]; // ORS usa [lng, lat]
     const end = [destination[1], destination[0]];
 
     try {
-      const response = await fetch(
-        `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${ORS_API_KEY}&start=${start[0]},${start[1]}&end=${end[0]},${end[1]}`
-      );
+      const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${ORS_API_KEY}&start=${start[0]},${start[1]}&end=${end[0]},${end[1]}`;
+      console.log("🌐 Requisição:", url);
+
+      const response = await fetch(url);
       const data = await response.json();
+
+      if (!data.features || data.features.length === 0) {
+        console.error("❌ Nenhuma rota encontrada:", data);
+        return;
+      }
+
       const coords = data.features[0].geometry.coordinates.map((c) => [c[1], c[0]]);
       setRouteCoords(coords);
     } catch (error) {
-      console.error("Erro ao buscar rota:", error);
+      console.error("🚨 Erro ao buscar rota:", error);
     }
   };
 
@@ -161,6 +189,7 @@ function Map() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
+        {userPosition && <RecenterMap position={userPosition} />}
         {userPosition && <FlyToUser position={userPosition} />}
 
         {userPosition && (
