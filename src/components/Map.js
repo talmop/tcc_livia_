@@ -100,7 +100,6 @@ function Map() {
   const [userPosition, setUserPosition] = useState(null);
   const [routeCoords, setRouteCoords] = useState([]);
 
-  // 🔑 Chave da API ORS (verifique se está no .env)
   const ORS_API_KEY = process.env.REACT_APP_ORS_API_KEY;
   console.log("🔑 Chave ORS_API_KEY:", ORS_API_KEY);
 
@@ -119,7 +118,7 @@ function Map() {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const position = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-        console.log("📍 Localização do usuário (alta precisão):", position);
+        console.log("📍 Localização do usuário:", position);
         setUserPosition(position);
       },
       (err) => console.error("Erro ao obter localização:", err),
@@ -150,7 +149,7 @@ function Map() {
       return;
     }
 
-    const start = [userPosition.lng, userPosition.lat]; // ORS usa [lng, lat]
+    const start = [userPosition.lng, userPosition.lat];
     const end = [destination[1], destination[0]];
 
     try {
@@ -173,15 +172,28 @@ function Map() {
   };
 
   return (
-    <div style={{ position: "relative", minHeight: "100vh" }}>
+    <div
+      style={{
+        position: "relative",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <h1>ecoRefil</h1>
-      <p>🖱️ Dê um duplo clique no mapa para adicionar um ponto.</p>
-      <p>🗺️ Clique no botão do ponto para traçar rota até ele.</p>
 
       <MapContainer
         center={userPosition || [-15.78, -47.93]}
         zoom={13}
-        style={{ height: "500px", width: "100%" }}
+        style={{
+          height: "100vh",       // altura total da tela
+          width: "100vw",        // largura total da tela
+          margin: "0",
+          borderRadius: "0px",
+          boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
+        }}
         doubleClickZoom={false}
       >
         <TileLayer
@@ -209,8 +221,7 @@ function Map() {
                 <h4>
                   Média:{" "}
                   {(
-                    ponto.reviews.reduce((sum, r) => sum + r.stars, 0) /
-                    ponto.reviews.length
+                    ponto.reviews.reduce((sum, r) => sum + r.stars, 0) / ponto.reviews.length
                   ).toFixed(1)}{" "}
                   ⭐
                 </h4>
